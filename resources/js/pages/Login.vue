@@ -5,15 +5,19 @@
 
             <form @submit.prevent="login">
                 <div class="mb-4">
-                    <label class="block text-gray-700 mb-2" for="email">Email</label>
-                    <input id="email" type="email" v-model="form.email" placeholder="seu@email.com"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" />
+                    <label class="block text-gray-700 mb-2" for="nome">Login</label>
+                    <input id="login" type="text" v-model="form.login" placeholder="Seu Login"
+                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        maxlength="100"
+                        minlength="2" />
                 </div>
 
                 <div class="mb-6">
                     <label class="block text-gray-700 mb-2" for="senha">Senha</label>
                     <input id="senha" type="password" v-model="form.password" placeholder="********"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500" />
+                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        maxlength="100"
+                        minlength="2" />
                 </div>
 
                 <button type="submit"
@@ -37,8 +41,8 @@ import { router } from '@inertiajs/vue3'
 
 // Dados do formulário
 const form = reactive({
-    email: '',
-    password: ''
+    password: '',
+    login: ''
 })
 
 // Função de login

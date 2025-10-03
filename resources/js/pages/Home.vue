@@ -9,7 +9,7 @@
             </p>
 
             <div class="flex space-x-4">
-                <Link href="/logar" class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Login</Link>
+                <Link href="/login" class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Login</Link>
                 <Link href="/cadastro" class="px-6 py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition">Cadastro</Link>
             </div>
         </main>

@@ -9,7 +9,7 @@
 
                 <!-- Menu -->
                 <div class="flex items-center space-x-4">
-                    <Link href="/logar" class="px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition">Login</Link>
+                    <Link href="/login" class="px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 transition">Login</Link>
                     <Link href="/cadastro" class="px-3 py-2 rounded-md text-white bg-green-600 hover:bg-green-700 transition">Cadastro</Link>
                 </div>
             </div>
