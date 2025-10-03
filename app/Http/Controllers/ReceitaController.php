@@ -19,18 +19,11 @@ class ReceitaController extends Controller
         $usuario = Auth::user();
 
         $receitas = Receita::where('id_usuarios', $usuario->id)->get();
+        $categorias = Categoria::all();
 
         return Inertia::render('Dashboard', [
             'auth' => ['user' => $usuario],
-            'receitas' => $receitas
-        ]);
-    }
-
-    public function create()
-    {
-        $categorias = Categoria::all();
-
-        return Inertia::render('Receitas/Create', [
+            'receitas' => $receitas,
             'categorias' => $categorias
         ]);
     }
@@ -59,18 +52,6 @@ class ReceitaController extends Controller
         ]);
 
         return redirect()->route('dashboard');
-    }
-
-    public function edit(Receita $receita)
-    {
-        $this->authorize('update', $receita);
-
-        $categorias = Categoria::all();
-
-        return Inertia::render('Receitas/Edit', [
-            'receita' => $receita,
-            'categorias' => $categorias
-        ]);
     }
 
     public function update(Request $request, Receita $receita)
@@ -112,7 +93,7 @@ class ReceitaController extends Controller
     {
         $this->authorize('view', $receita);
 
-        return Inertia::render('Receitas/Imprimir', [
+        return Inertia::render('Imprimir', [
             'receita' => $receita
         ]);
     }
