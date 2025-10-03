@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 
-defineProps<{
+const props = defineProps<{
     auth: {
         user: {
             nome: string
@@ -20,6 +20,8 @@ defineProps<{
 
 const showModal = ref(false)
 const isEditing = ref(false)
+const filtro = ref('')
+
 const receitaAtual = reactive({
     id: null,
     nome: '',
@@ -28,6 +30,14 @@ const receitaAtual = reactive({
     tempo_preparo_minutos: null,
     porcoes: null,
 })
+
+const receitasFiltradas = computed(() =>
+    props.receitas.filter((r) =>
+        `${r.nome} ${r.modo_preparo} ${r.ingredientes}`
+            .toLowerCase()
+            .includes(filtro.value.toLowerCase())
+    )
+)
 
 function logout() {
     router.post('/logout')
@@ -46,7 +56,7 @@ function abrirModalCadastro() {
     showModal.value = true
 }
 
-function abrirModalEdicao(receita:object) {
+function abrirModalEdicao(receita: object) {
     isEditing.value = true
     Object.assign(receitaAtual, receita)
     showModal.value = true
@@ -97,10 +107,18 @@ function imprimirReceita(id: number) {
                 </button>
             </div>
 
-            <div v-if="receitas.length === 0" class="text-gray-600">Você ainda não cadastrou nenhuma receita.</div>
+            <!-- Campo de busca -->
+            <div class="mb-6">
+                <input v-model="filtro" type="text" placeholder="Buscar receita por nome ou preparo..."
+                    class="w-full px-4 py-2 border rounded-md" />
+            </div>
+
+            <div v-if="receitasFiltradas.length === 0" class="text-gray-600">
+                Nenhuma receita encontrada.
+            </div>
 
             <div v-else class="space-y-4">
-                <div v-for="receita in receitas" :key="receita.id" class="bg-white shadow rounded p-4">
+                <div v-for="receita in receitasFiltradas" :key="receita.id" class="bg-white shadow rounded p-4">
                     <h3 class="text-lg font-semibold text-gray-800">{{ receita.nome }}</h3>
                     <p class="text-gray-600 mb-4">{{ receita.modo_preparo }}</p>
                     <div class="flex space-x-2">
