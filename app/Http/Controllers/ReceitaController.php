@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\ReceitaRequest;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\Receita;
@@ -31,17 +31,8 @@ class ReceitaController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ReceitaRequest $request)
     {
-        $request->validate([
-            'nome' => 'required|string|max:45',
-            'modo_preparo' => 'required|string',
-            'ingredientes' => 'nullable|string',
-            'tempo_preparo_minutos' => 'nullable|integer',
-            'porcoes' => 'nullable|integer',
-            'id_categorias' => 'nullable|exists:categorias,id'
-        ]);
-
         Receita::create([
             'id_usuarios' => Auth::id(),
             'id_categorias' => $request->id_categorias,
@@ -57,18 +48,9 @@ class ReceitaController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function update(Request $request, Receita $receita)
+    public function update(ReceitaRequest $request, Receita $receita)
     {
         $this->authorize('update', $receita);
-
-        $request->validate([
-            'nome' => 'required|string|max:45',
-            'modo_preparo' => 'required|string',
-            'ingredientes' => 'nullable|string',
-            'tempo_preparo_minutos' => 'nullable|integer',
-            'porcoes' => 'nullable|integer',
-            'id_categorias' => 'nullable|exists:categorias,id'
-        ]);
 
         $receita->update([
             'id_categorias' => $request->id_categorias,
