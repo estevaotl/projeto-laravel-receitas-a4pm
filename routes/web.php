@@ -28,7 +28,7 @@ Route::post('/logout', function () {
 })->name('logout');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [ReceitaController::class, 'index'])->name('dashboard');
+    Route::get('/receitas/dashboard', [ReceitaController::class, 'index'])->name('receitas.dashboard');
     Route::get('/receitas/criar', [ReceitaController::class, 'create']);
     Route::post('/receitas', [ReceitaController::class, 'store']);
     Route::get('/receitas/{receita}/editar', [ReceitaController::class, 'edit']);

@@ -23,7 +23,7 @@ class UsuarioController extends Controller
 
         Auth::login($usuario);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('receitas.dashboard');
     }
 
     public function registrar(UsuarioCadastroRequest $request)
@@ -38,6 +38,6 @@ class UsuarioController extends Controller
 
         Auth::login($usuario);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('receitas.dashboard');
     }
 }

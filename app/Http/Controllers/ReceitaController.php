@@ -24,7 +24,7 @@ class ReceitaController extends Controller
 
         $categorias = Categoria::all();
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Receitas/Dashboard', [
             'auth' => ['user' => $usuario],
             'receitas' => $receitas,
             'categorias' => $categorias
@@ -45,7 +45,7 @@ class ReceitaController extends Controller
             'alterado_em' => Carbon::now()
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('receitas.dashboard');
     }
 
     public function update(ReceitaRequest $request, Receita $receita)
@@ -62,7 +62,7 @@ class ReceitaController extends Controller
             'alterado_em' => Carbon::now()
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('receitas.dashboard');
     }
 
     public function destroy(Receita $receita)
@@ -71,7 +71,7 @@ class ReceitaController extends Controller
 
         $receita->delete();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('receitas.dashboard');
     }
 
     public function imprimir(Receita $receita)
