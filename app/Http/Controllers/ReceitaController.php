@@ -18,7 +18,10 @@ class ReceitaController extends Controller
     {
         $usuario = Auth::user();
 
-        $receitas = Receita::where('id_usuarios', $usuario->id)->get();
+        $receitas = Receita::where('id_usuarios', $usuario->id)
+            ->with('categoria') // carrega nome da categoria
+            ->get();
+
         $categorias = Categoria::all();
 
         return Inertia::render('Dashboard', [
@@ -92,6 +95,8 @@ class ReceitaController extends Controller
     public function imprimir(Receita $receita)
     {
         $this->authorize('view', $receita);
+
+        $receita->load('categoria'); // carrega nome da categoria
 
         return Inertia::render('Imprimir', [
             'receita' => $receita
