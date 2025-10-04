@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\UsuarioCadastroRequest;
+use App\Http\Requests\UsuarioLoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
@@ -10,13 +11,8 @@ use Carbon\Carbon;
 
 class UsuarioController extends Controller
 {
-    public function autenticar(Request $request)
+    public function autenticar(UsuarioLoginRequest $request)
     {
-        $request->validate([
-            'login' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
         $usuario = Usuario::where('login', $request->login)->first();
 
         if (!$usuario || !Hash::check($request->password, $usuario->senha)) {
@@ -30,14 +26,8 @@ class UsuarioController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function registrar(Request $request)
+    public function registrar(UsuarioCadastroRequest $request)
     {
-        $request->validate([
-            'nome' => 'required|string|min:2|max:100',
-            'login' => 'required|string|unique:usuarios,login|min:2|max:100',
-            'password' => 'required|string|min:2|max:100',
-        ]);
-
         $usuario = Usuario::create([
             'nome' => $request->nome,
             'login' => $request->login,
