@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
+import Navbar from '@/components/Navbar.vue';
 
 const { auth, receitas, categorias } = defineProps<{
     auth: {
@@ -100,10 +101,7 @@ function imprimirReceita(id: number) {
 <template>
     <div class="min-h-screen bg-gray-50">
         <!-- Navbar -->
-        <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-green-600">Olá, {{ auth.user.nome }}</h1>
-            <button @click="logout" class="text-red-600 hover:underline">Sair</button>
-        </nav>
+        <Navbar :auth="auth"/>
 
         <!-- Conteúdo -->
         <div class="max-w-4xl mx-auto py-10 px-4">

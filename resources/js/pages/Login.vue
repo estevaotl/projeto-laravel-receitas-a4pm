@@ -1,4 +1,6 @@
 <template>
+    <Navbar />
+
     <div class="min-h-screen flex flex-col items-center justify-center bg-gray-50">
         <div class="w-full max-w-md bg-white rounded-lg shadow-md p-8">
             <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
@@ -37,6 +39,7 @@
 </template>
 
 <script setup lang="ts">
+import Navbar from '@/components/Navbar.vue'
 import { Link, useForm } from '@inertiajs/vue3'
 
 // Dados do formulário
