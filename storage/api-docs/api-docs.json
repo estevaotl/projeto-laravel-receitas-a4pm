@@ -1,0 +1,183 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "A4PM Receitas API",
+        "description": "Documentação da API de receitas e usuários",
+        "version": "1.0"
+    },
+    "paths": {
+        "/receitas/dashboard": {
+            "get": {
+                "tags": [
+                    "Receitas"
+                ],
+                "summary": "Lista todas as receitas do usuário autenticado",
+                "operationId": "778b3944862dd24b190686dd0a65a696",
+                "responses": {
+                    "200": {
+                        "description": "Lista de receitas retornada com sucesso"
+                    }
+                }
+            }
+        },
+        "/receitas": {
+            "post": {
+                "tags": [
+                    "Receitas"
+                ],
+                "summary": "Cria uma nova receita",
+                "operationId": "bd75738047a6505675761c40d7872098",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "modo_preparo"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    },
+                                    "modo_preparo": {
+                                        "type": "string"
+                                    },
+                                    "ingredientes": {
+                                        "type": "string"
+                                    },
+                                    "tempo_preparo_minutos": {
+                                        "type": "integer"
+                                    },
+                                    "porcoes": {
+                                        "type": "integer"
+                                    },
+                                    "id_categorias": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Receita criada com sucesso"
+                    }
+                }
+            }
+        },
+        "/receitas/{id}": {
+            "put": {
+                "tags": [
+                    "Receitas"
+                ],
+                "summary": "Atualiza uma receita existente",
+                "operationId": "238ffb6d440a42029d2f4d485cad0040",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da receita",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nome": {
+                                        "type": "string"
+                                    },
+                                    "modo_preparo": {
+                                        "type": "string"
+                                    },
+                                    "ingredientes": {
+                                        "type": "string"
+                                    },
+                                    "tempo_preparo_minutos": {
+                                        "type": "integer"
+                                    },
+                                    "porcoes": {
+                                        "type": "integer"
+                                    },
+                                    "id_categorias": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Receita atualizada com sucesso"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Receitas"
+                ],
+                "summary": "Exclui uma receita",
+                "operationId": "2ef390e37df948d92ff387726318235a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da receita",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Receita excluída com sucesso"
+                    }
+                }
+            }
+        },
+        "/receitas/{id}/imprimir": {
+            "get": {
+                "tags": [
+                    "Receitas"
+                ],
+                "summary": "Renderiza a receita para impressão",
+                "operationId": "6af759e30c781d02672e007d95794054",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da receita",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Receita pronta para impressão"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Receitas",
+            "description": "Operações relacionadas às receitas"
+        }
+    ]
+}

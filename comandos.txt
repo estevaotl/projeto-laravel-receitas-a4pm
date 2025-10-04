@@ -1,0 +1,2 @@
+Gerar documentação do Swagger: php artisan l5-swagger:generate
+
