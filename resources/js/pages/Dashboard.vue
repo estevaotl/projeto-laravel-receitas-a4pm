@@ -2,7 +2,7 @@
 import { ref, reactive, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 
-const props = defineProps<{
+const { auth, receitas, categorias } = defineProps<{
     auth: {
         user: {
             nome: string
@@ -15,6 +15,12 @@ const props = defineProps<{
         ingredientes: string
         tempo_preparo_minutos: number
         porcoes: number
+        id_categorias: number | null
+        categoria?: { nome: string }
+    }[],
+    categorias: {
+        id: number
+        nome: string
     }[]
 }>()
 
@@ -29,10 +35,11 @@ const receitaAtual = reactive({
     ingredientes: '',
     tempo_preparo_minutos: null,
     porcoes: null,
+    id_categorias: null,
 })
 
 const receitasFiltradas = computed(() =>
-    props.receitas.filter((r) =>
+    receitas.filter((r) =>
         `${r.nome} ${r.modo_preparo} ${r.ingredientes}`
             .toLowerCase()
             .includes(filtro.value.toLowerCase())
@@ -52,6 +59,7 @@ function abrirModalCadastro() {
         ingredientes: '',
         tempo_preparo_minutos: null,
         porcoes: null,
+        id_categorias: null,
     })
     showModal.value = true
 }
@@ -120,6 +128,7 @@ function imprimirReceita(id: number) {
             <div v-else class="space-y-4">
                 <div v-for="receita in receitasFiltradas" :key="receita.id" class="bg-white shadow rounded p-4">
                     <h3 class="text-lg font-semibold text-gray-800">{{ receita.nome }}</h3>
+                    <p class="text-gray-600 mb-1"><strong>Categoria:</strong> {{ receita.categoria?.nome || 'Sem categoria' }}</p>
                     <p class="text-gray-600 mb-4">{{ receita.modo_preparo }}</p>
                     <div class="flex space-x-2">
                         <button @click="abrirModalEdicao(receita)" class="text-blue-600 hover:underline">Editar</button>
@@ -153,6 +162,11 @@ function imprimirReceita(id: number) {
                         <input v-model="receitaAtual.porcoes" type="number" placeholder="Porções"
                             class="w-full px-4 py-2 border rounded-md" />
                     </div>
+
+                    <select v-model="receitaAtual.id_categorias" class="w-full px-4 py-2 border rounded-md">
+                        <option :value="null">Sem categoria</option>
+                        <option v-for="cat in categorias" :key="cat.id" :value="cat.id">{{ cat.nome }}</option>
+                    </select>
 
                     <div class="flex justify-end space-x-2 mt-4">
                         <button type="button" @click="fecharModal"
