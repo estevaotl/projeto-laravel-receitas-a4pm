@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
-import { router } from '@inertiajs/vue3'
-import Navbar from '@/components/Navbar.vue';
+import { ref, computed } from 'vue'
+import { useForm } from '@inertiajs/vue3'
+import Navbar from '@/components/Navbar.vue'
+import ModalReceitas from '@/components/ModalReceitas.vue'
+import CardReceitas from '@/components/CardReceitas.vue'
 
 const { auth, receitas, categorias } = defineProps<{
-    auth: {
-        user: {
-            nome: string
-        }
-    },
+    auth: { user: { nome: string } }
     receitas: {
         id: number
         nome: string
@@ -18,18 +16,15 @@ const { auth, receitas, categorias } = defineProps<{
         porcoes: number
         id_categorias: number | null
         categoria?: { nome: string }
-    }[],
-    categorias: {
-        id: number
-        nome: string
     }[]
+    categorias: { id: number; nome: string }[]
 }>()
 
 const showModal = ref(false)
 const isEditing = ref(false)
 const filtro = ref('')
 
-const receitaAtual = reactive({
+const form = useForm({
     id: null,
     nome: '',
     modo_preparo: '',
@@ -47,49 +42,49 @@ const receitasFiltradas = computed(() =>
     )
 )
 
-function logout() {
-    router.post('/logout')
-}
-
 function abrirModalCadastro() {
     isEditing.value = false
-    Object.assign(receitaAtual, {
-        id: null,
-        nome: '',
-        modo_preparo: '',
-        ingredientes: '',
-        tempo_preparo_minutos: null,
-        porcoes: null,
-        id_categorias: null,
-    })
+    form.reset()
+    form.clearErrors()
     showModal.value = true
 }
 
-function abrirModalEdicao(receita: object) {
+function abrirModalEdicao(receita: any) {
     isEditing.value = true
-    Object.assign(receitaAtual, receita)
+    form.reset()
+    form.clearErrors()
+
+    form.id = receita.id
+    form.nome = receita.nome
+    form.modo_preparo = receita.modo_preparo
+    form.ingredientes = receita.ingredientes
+    form.tempo_preparo_minutos = receita.tempo_preparo_minutos
+    form.porcoes = receita.porcoes
+    form.id_categorias = receita.id_categorias
+
     showModal.value = true
 }
 
 function fecharModal() {
     showModal.value = false
+    form.clearErrors()
 }
 
 function salvarReceita() {
     if (isEditing.value) {
-        router.put(`/receitas/${receitaAtual.id}`, receitaAtual, {
-            onSuccess: fecharModal
+        form.put(`/receitas/${form.id}`, {
+            onSuccess: fecharModal,
         })
     } else {
-        router.post('/receitas', receitaAtual, {
-            onSuccess: fecharModal
+        form.post('/receitas', {
+            onSuccess: fecharModal,
         })
     }
 }
 
 function excluirReceita(id: number) {
     if (confirm('Tem certeza que deseja excluir esta receita?')) {
-        router.delete(`/receitas/${id}`)
+        form.delete(`/receitas/${id}`)
     }
 }
 
@@ -100,10 +95,8 @@ function imprimirReceita(id: number) {
 
 <template>
     <div class="min-h-screen bg-gray-50">
-        <!-- Navbar -->
-        <Navbar :auth="auth"/>
+        <Navbar :auth="auth" />
 
-        <!-- Conteúdo -->
         <div class="max-w-4xl mx-auto py-10 px-4">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Minhas Receitas</h2>
@@ -113,7 +106,6 @@ function imprimirReceita(id: number) {
                 </button>
             </div>
 
-            <!-- Campo de busca -->
             <div class="mb-6">
                 <input v-model="filtro" type="text" placeholder="Buscar receita por nome ou preparo..."
                     class="w-full px-4 py-2 border rounded-md" />
@@ -124,59 +116,12 @@ function imprimirReceita(id: number) {
             </div>
 
             <div v-else class="space-y-4">
-                <div v-for="receita in receitasFiltradas" :key="receita.id" class="bg-white shadow rounded p-4">
-                    <h3 class="text-lg font-semibold text-gray-800">{{ receita.nome }}</h3>
-                    <p class="text-gray-600 mb-1"><strong>Categoria:</strong> {{ receita.categoria?.nome || 'Sem categoria' }}</p>
-                    <p class="text-gray-600 mb-4">{{ receita.modo_preparo }}</p>
-                    <div class="flex space-x-2">
-                        <button @click="abrirModalEdicao(receita)" class="text-blue-600 hover:underline">Editar</button>
-                        <button @click="excluirReceita(receita.id)"
-                            class="text-red-600 hover:underline">Excluir</button>
-                        <button @click="imprimirReceita(receita.id)"
-                            class="text-green-600 hover:underline">Imprimir</button>
-                    </div>
-                </div>
+                <CardReceitas v-for="receita in receitasFiltradas" :key="receita.id" :receita="receita"
+                    @editar="abrirModalEdicao" @excluir="excluirReceita" @imprimir="imprimirReceita" />
             </div>
         </div>
 
-        <!-- Modal -->
-        <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-xl">
-                <h2 class="text-xl font-bold mb-4">{{ isEditing ? 'Editar Receita' : 'Nova Receita' }}</h2>
-
-                <form @submit.prevent="salvarReceita" class="space-y-4">
-                    <input v-model="receitaAtual.nome" type="text" placeholder="Nome da receita"
-                        class="w-full px-4 py-2 border rounded-md" maxlength="45" required />
-
-                    <textarea v-model="receitaAtual.modo_preparo" placeholder="Modo de preparo"
-                        class="w-full px-4 py-2 border rounded-md" rows="3" required></textarea>
-
-                    <textarea v-model="receitaAtual.ingredientes" placeholder="Ingredientes"
-                        class="w-full px-4 py-2 border rounded-md" rows="2"></textarea>
-
-                    <div class="flex space-x-4">
-                        <input v-model="receitaAtual.tempo_preparo_minutos" type="number" placeholder="Tempo (min)"
-                            class="w-full px-4 py-2 border rounded-md" />
-                        <input v-model="receitaAtual.porcoes" type="number" placeholder="Porções"
-                            class="w-full px-4 py-2 border rounded-md" />
-                    </div>
-
-                    <select v-model="receitaAtual.id_categorias" class="w-full px-4 py-2 border rounded-md">
-                        <option :value="null">Sem categoria</option>
-                        <option v-for="cat in categorias" :key="cat.id" :value="cat.id">{{ cat.nome }}</option>
-                    </select>
-
-                    <div class="flex justify-end space-x-2 mt-4">
-                        <button type="button" @click="fecharModal"
-                            class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">
-                            Cancelar
-                        </button>
-                        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                            {{ isEditing ? 'Atualizar' : 'Salvar' }}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <ModalReceitas :show="showModal" :isEditing="isEditing" :receita="form" :categorias="categorias"
+            :errors="form.errors" @fechar="fecharModal" @salvar="salvarReceita" />
     </div>
 </template>
