@@ -34,7 +34,7 @@ class ReceitaRequest extends FormRequest
     public function messages()
     {
         return [
-            'id_categorias.exists' => 'Não foi possivel cadastrar a receita com essa categoria selecionada',
+            'id_categorias.exists' => 'Não foi possivel cadastrar a receita com essa categoria selecionada, já que a categoria não existe',
             'nome.max'             => 'Campo nome deve ter no máximo :max caracteres'
         ];
     }

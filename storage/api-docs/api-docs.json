@@ -65,6 +65,37 @@
                 "responses": {
                     "201": {
                         "description": "Receita criada com sucesso"
+                    },
+                    "422": {
+                        "description": "Erros de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "properties": {
+                                                "nome": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['Campo nome deve ter no máximo 100 caracteres.']"
+                                                    }
+                                                },
+                                                "id_categorias": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['Não foi possivel cadastrar a receita com essa categoria selecionada, já que a categoria não existe.']"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -121,6 +152,37 @@
                 "responses": {
                     "200": {
                         "description": "Receita atualizada com sucesso"
+                    },
+                    "422": {
+                        "description": "Erros de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "properties": {
+                                                "nome": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['Campo nome deve ter no máximo 100 caracteres.']"
+                                                    }
+                                                },
+                                                "id_categorias": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['Não foi possivel cadastrar a receita com essa categoria selecionada, já que a categoria não existe.']"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -212,7 +274,7 @@
                         "description": "Credenciais inválidas"
                     },
                     "422": {
-                        "description": "Erro de validação",
+                        "description": "Erros de validação",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -286,7 +348,7 @@
                         "description": "Redireciona para o dashboard após cadastro com sucesso"
                     },
                     "422": {
-                        "description": "Erro de validação",
+                        "description": "Erros de validação",
                         "content": {
                             "application/json": {
                                 "schema": {
