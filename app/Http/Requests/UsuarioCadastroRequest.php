@@ -40,7 +40,7 @@ class UsuarioCadastroRequest extends FormRequest
             'login.unique'      => 'Já existe um usuario cadastrado com esse login',
             'password.required' => 'Campo password é obrigatório',
             'password.min'      => 'Campo password deve ter no minimo :min caracteres',
-            'password.max'      => 'Campo password deve ter no máximo :max caracteres',
+            'password.max'      => 'Campo password deve ter no máximo :max caracteres'
         ];
     }
 }

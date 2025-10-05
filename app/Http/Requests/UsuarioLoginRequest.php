@@ -35,7 +35,7 @@ class UsuarioLoginRequest extends FormRequest
             'login.max'         => 'Campo login deve ter no máximo :max caracteres',
             'password.required' => 'Campo senha é obrigatório',
             'password.min'      => 'Campo senha deve ter no minimo :min caracteres',
-            'password.max'      => 'Campo senha deve ter no máximo :max caracteres',
+            'password.max'      => 'Campo senha deve ter no máximo :max caracteres'
         ];
     }
 }

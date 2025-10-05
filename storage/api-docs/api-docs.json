@@ -172,12 +172,169 @@
                     }
                 }
             }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Autentica um usuário",
+                "operationId": "16a24e707e2a7bdee257b2d0fab49039",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "login",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "login": {
+                                        "type": "string",
+                                        "example": "usuario123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "senha123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "Redireciona para o dashboard após login"
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas"
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "properties": {
+                                                "login": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['O campo login é obrigatório.', 'O login deve ter no mínimo 2 caracteres.', 'O login deve ter no máximo 100 caracteres.']"
+                                                    }
+                                                },
+                                                "password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['O campo senha é obrigatório.', 'A senha deve deve ter no mínimo 2 caracteres.', 'A senha deve ter no máximo 100 caracteres.']"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cadastro": {
+            "post": {
+                "tags": [
+                    "Usuários"
+                ],
+                "summary": "Registra um novo usuário",
+                "operationId": "8a392851bb81bd52c6ffa5d0ecec9404",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nome",
+                                    "login",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nome": {
+                                        "type": "string",
+                                        "example": "João da Silva"
+                                    },
+                                    "login": {
+                                        "type": "string",
+                                        "example": "joaosilva"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "senhaSegura123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "302": {
+                        "description": "Redireciona para o dashboard após cadastro com sucesso"
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "properties": {
+                                                "login": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['O campo login é obrigatório.', 'O login deve ter no mínimo 2 caracteres.', 'O login deve ter no máximo 100 caracteres.', 'O login deve ser único, ou seja, não deve existir outro usuario com o mesmo login escolhido.']"
+                                                    }
+                                                },
+                                                "password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['O campo senha é obrigatório.', 'A senha deve deve ter no mínimo 2 caracteres.', 'A senha deve ter no máximo 100 caracteres.']"
+                                                    }
+                                                },
+                                                "nome": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "['O campo nome é obrigatório.', 'O nome deve deve ter no mínimo 2 caracteres.', 'O nome deve ter no máximo 100 caracteres.']"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "Receitas",
             "description": "Operações relacionadas às receitas"
+        },
+        {
+            "name": "Usuários",
+            "description": "Operações de autenticação e cadastro de usuários"
         }
     ]
 }
