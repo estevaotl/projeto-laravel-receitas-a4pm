@@ -1,2 +1,14 @@
-Gerar documentação do Swagger: php artisan l5-swagger:generate
+Swagger: 
+Github do projeto: https://github.com/DarkaOnLine/L5-Swagger
+Gerar documentação: php artisan l5-swagger:generate
 
+Docker:
+Site: https://www.docker.com/
+Limpar imagens e containers antigos (remove containers, volumes e imagens não utilizados): docker system prune -a
+Subir os containers: docker-compose up -d --build
+Verificar se tudo rodou: docker logs laravel_app (laravel_app é o nome da imagem do container)
+Derrubar os containers (O -v remove volumes antigos e força a recriação do banco): docker-compose down -v
+Limpar cache e reconstruir (Isso força o Docker a reconstruir tudo do zero, ignorando snapshots antigos.): docker builder prune --all
+
+Seed:
+php artisan db:seed
