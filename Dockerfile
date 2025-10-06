@@ -18,7 +18,7 @@ WORKDIR /var/www
 COPY . .
 
 # Permissões
-RUN chown -R www-data:www-data /var/www
+RUN chown -R www-data:www-data storage bootstrap/cache resources/js public/build
 
 EXPOSE 9000
 CMD ["php-fpm"]

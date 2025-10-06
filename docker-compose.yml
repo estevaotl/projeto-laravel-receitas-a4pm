@@ -11,17 +11,7 @@ services:
       - "9000:9000"
     depends_on:
       - db
-    command: >
-      sh -c "until nc -z db 3306; do echo '⏳ Aguardando MySQL...'; sleep 1; done &&
-        echo '✅ MySQL disponível. Rodando migrations...' &&
-        composer install &&
-        npm install &&
-        npm run build &&
-        php artisan migrate --force &&
-        php artisan db:seed --force &&
-        echo '🚀 Aplicação pronta!' &&
-        php-fpm"
-
+    command: ["sh", "./docker/entrypoint.sh"]
     networks:
       - laravel
 
@@ -58,6 +48,20 @@ services:
       - "8081:8080"
     depends_on:
       - db
+    networks:
+      - laravel
+
+  vite:
+    image: node:20
+    container_name: vite_dev_server
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - app
     networks:
       - laravel
 
