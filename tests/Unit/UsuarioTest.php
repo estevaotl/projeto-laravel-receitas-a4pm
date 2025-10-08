@@ -2,22 +2,32 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use App\Models\Usuario;
+use App\Http\Requests\UsuarioLoginRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Tests\TestCase;
 
-class UserTest extends TestCase
+class UsuarioLoginRequestTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_usuario_autenticavel()
+    public function test_login_request_valido()
     {
-        $usuario = Usuario::factory()->create([
-            'login' => 'joao',
-            'senha' => Hash::make('senha123'),
-        ]);
+        $data = ['login' => 'joao', 'password' => 'senha123'];
+        $request = new UsuarioLoginRequest();
+        $validator = Validator::make($data, $request->rules());
 
-        $this->assertDatabaseHas('usuarios', ['login' => 'joao']);
+        $this->assertTrue($validator->passes());
+    }
+
+    public function test_login_request_invalido()
+    {
+        $data = ['login' => '', 'password' => ''];
+        $request = new UsuarioLoginRequest();
+        $validator = Validator::make($data, $request->rules());
+
+        $this->assertFalse($validator->passes());
+        $this->assertArrayHasKey('login', $validator->errors()->toArray());
+        $this->assertArrayHasKey('password', $validator->errors()->toArray());
     }
 }
