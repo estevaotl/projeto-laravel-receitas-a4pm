@@ -67,14 +67,14 @@ services:
       - laravel
 
   cypress:
-    image: cypress/included:12.17.4
+    image: cypress/included:15.4.0
     container_name: cypress_tests
     working_dir: /e2e
     volumes:
       - .:/e2e
     depends_on:
-      - app
-    command: cypress run
+      - nginx
+    entrypoint: sh -c "npx wait-on http://nginx_server:80 && cypress run"
     networks:
       - laravel
 
