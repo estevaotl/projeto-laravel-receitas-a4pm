@@ -36,21 +36,3 @@ Route::middleware('auth')->group(function () {
     Route::delete('/receitas/{receita}', [ReceitaController::class, 'destroy']);
     Route::get('/receitas/{receita}/imprimir', [ReceitaController::class, 'imprimir']);
 });
-
-Route::post('/test/cypress-user', function () {
-    $data = request()->validate([
-        'nome' => 'required|string',
-        'login' => 'required|string|unique:usuarios,login',
-        'password' => 'required|string',
-    ]);
-
-    $usuario = \App\Models\Usuario::create([
-        'nome' => $data['nome'],
-        'login' => $data['login'],
-        'senha' => \Illuminate\Support\Facades\Hash::make($data['password']),
-        'criado_em' => now(),
-        'alterado_em' => now(),
-    ]);
-
-    return response()->json(['status' => 'ok']);
-});
