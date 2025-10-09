@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Usuario;
 use Carbon\Carbon;
+use Inertia\Inertia;
 
 /**
  * @OA\Tag(
@@ -66,7 +67,7 @@ class UsuarioController extends Controller
 
         Auth::login($usuario);
 
-        return redirect()->route('receitas.dashboard');
+        return Inertia::location(route('receitas.dashboard'));
     }
 
     /**
@@ -118,6 +119,6 @@ class UsuarioController extends Controller
 
         Auth::login($usuario);
 
-        return redirect()->route('receitas.dashboard');
+        return Inertia::location(route('receitas.dashboard'));
     }
 }

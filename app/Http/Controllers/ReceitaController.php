@@ -105,7 +105,7 @@ class ReceitaController extends Controller
             'alterado_em' => Carbon::now()
         ]);
 
-        return redirect()->route('receitas.dashboard');
+        return Inertia::location(route('receitas.dashboard'));
     }
 
     /**
@@ -165,7 +165,7 @@ class ReceitaController extends Controller
             'alterado_em' => Carbon::now()
         ]);
 
-        return redirect()->route('receitas.dashboard');
+        return Inertia::location(route('receitas.dashboard'));
     }
 
     /**
@@ -192,7 +192,7 @@ class ReceitaController extends Controller
 
         $receita->delete();
 
-        return redirect()->route('receitas.dashboard');
+        return Inertia::location(route('receitas.dashboard'));
     }
 
     /**
