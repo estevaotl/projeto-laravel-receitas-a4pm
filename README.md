@@ -57,7 +57,8 @@ cd projeto-laravel-receitas-a4pm
 
 ### 4. Deploy do Projeto
 
-> Copie o .env.example para um arquivo chamado .env --- Não precisava editar nada. Só deixar como está 
+> Copie o .env.example para um arquivo chamado .env --- Não precisava editar nada. Só deixar como está
+
 > No terminal, execute o comando abaixo:
 
 ```bash
