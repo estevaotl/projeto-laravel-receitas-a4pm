@@ -1,7 +1,7 @@
 <template>
     <nav class="bg-white shadow-md px-6 py-4 flex justify-between items-center">
         <h1 class="text-xl font-bold text-green-600">Olá, {{ auth.user.nome }}</h1>
-        <button @click="logout" class="text-red-600 hover:underline">Sair</button>
+        <button @click="logout" class="text-red-600 hover:underline" id="logout">Sair</button>
     </nav>
 </template>
 
