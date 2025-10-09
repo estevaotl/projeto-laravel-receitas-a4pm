@@ -12,3 +12,6 @@ Limpar cache e reconstruir (Isso força o Docker a reconstruir tudo do zero, ign
 
 Seed:
 php artisan db:seed
+
+Cypress:
+Comando para rodar os testes: npx cypress open
