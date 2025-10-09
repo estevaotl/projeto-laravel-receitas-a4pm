@@ -52,20 +52,6 @@ services:
     networks:
       - laravel
 
-  vite:
-    image: node:20
-    container_name: vite_dev_server
-    working_dir: /app
-    volumes:
-      - .:/app
-    ports:
-      - "5173:5173"
-    command: sh -c "npm install && npm run dev"
-    depends_on:
-      - app
-    networks:
-      - laravel
-
   cypress:
     image: cypress/included:15.4.0
     container_name: cypress_tests
@@ -74,13 +60,14 @@ services:
       - .:/e2e
     depends_on:
       - nginx
+    environment:
+      - CYPRESS_baseUrl=http://nginx_server
     entrypoint: sh -c "npx wait-on http://nginx_server:80 && cypress run"
     networks:
       - laravel
 
 volumes:
   dbdata:
-
 
 networks:
   laravel:
