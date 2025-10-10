@@ -55,7 +55,7 @@ https://github.com/estevaotl/projeto-laravel-receitas-a4pm.git
 cd projeto-laravel-receitas-a4pm
 ```
 
-### 4. Deploy do Projeto
+### 3. Deploy do Projeto
 
 > Copie o .env.example para um arquivo chamado .env --- Não precisava editar nada. Só deixar como está
 
@@ -86,7 +86,7 @@ docker-compose up --build
 
 ```bash
 # Rodar os testes automaticamente
-docker-compose run --rm cypress
+npx cypress open
 ```
 
 ⚠️ O Cypress depende do Nginx estar ativo. Certifique-se de que o projeto está rodando antes de executar os testes.
